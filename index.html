@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="Event-LiDAR converts LiDAR scans into temporally sparse point clouds via 3D eventification, cutting points by 72% and speeding up 3D detection on nuScenes.">
+  <meta name="keywords" content="LiDAR, point cloud, event-based sensing, 3D eventification, 3D object detection, autonomous driving, nuScenes, ECCV 2026">
+  <meta name="author" content="Masatoshi Murakami, Eisho Tsuji, Ken Sakurada">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Event-LiDAR: 3D Eventification for Efficient Point Cloud Processing">
+  <meta property="og:description" content="Event-LiDAR converts LiDAR scans into temporally sparse point clouds via 3D eventification, cutting points by 72% and speeding up 3D detection on nuScenes.">
+  <meta property="og:url" content="https://event-lidar-project.github.io/event-lidar/">
+  <meta property="og:image" content="https://event-lidar-project.github.io/event-lidar/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Overview of Event-LiDAR: 3D eventification converts dense LiDAR scans into sparse event point clouds">
+  <meta property="article:published_time" content="2026-09-10T00:00:00.000Z">
+  <meta property="article:author" content="Masatoshi Murakami">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="LiDAR">
+  <meta property="article:tag" content="3D object detection">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Event-LiDAR: 3D Eventification for Efficient Point Cloud Processing">
+  <meta name="twitter:description" content="Event-LiDAR converts LiDAR scans into temporally sparse point clouds via 3D eventification, cutting points by 72% and speeding up 3D detection on nuScenes.">
+  <meta name="twitter:image" content="https://event-lidar-project.github.io/event-lidar/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="Overview of Event-LiDAR: 3D eventification converts dense LiDAR scans into sparse event point clouds">
+
+  <meta name="citation_title" content="Event-LiDAR: 3D Eventification for Efficient Point Cloud Processing">
+  <meta name="citation_author" content="Murakami, Masatoshi">
+  <meta name="citation_author" content="Tsuji, Eisho">
+  <meta name="citation_author" content="Sakurada, Ken">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="European Conference on Computer Vision (ECCV)">
+
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <title>Event-LiDAR: 3D Eventification for Efficient Point Cloud Processing | ECCV 2026</title>
+
+  <link rel="icon" href="data:,">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css?v=20260905-0027">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./static/js/vendor/three/three.module.js",
+      "three/addons/": "./static/js/vendor/three/addons/"
+    }
+  }
+  </script>
+  <script type="module" src="static/js/viewer/main.js?v=20260905-0025"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Event-LiDAR: 3D Eventification for Efficient Point Cloud Processing",
+    "description": "Event-LiDAR converts LiDAR scans into temporally sparse point clouds via 3D eventification, cutting points by 72% and speeding up 3D detection on nuScenes.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Masatoshi Murakami",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Graduate School of Informatics, Kyoto University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Eisho Tsuji",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Graduate School of Informatics, Kyoto University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Ken Sakurada",
+        "affiliation": [
+          {
+            "@type": "Organization",
+            "name": "Graduate School of Informatics, Kyoto University"
+          },
+          {
+            "@type": "Organization",
+            "name": "D3 Center, The University of Osaka"
+          }
+        ]
+      }
+    ],
+    "datePublished": "2026-09-10",
+    "publisher": {
+      "@type": "Organization",
+      "name": "European Conference on Computer Vision (ECCV)"
+    },
+    "url": "https://event-lidar-project.github.io/event-lidar/",
+    "image": "https://event-lidar-project.github.io/event-lidar/static/images/social_preview.png",
+    "keywords": ["LiDAR", "point cloud", "event-based sensing", "3D eventification", "3D object detection", "autonomous driving", "nuScenes", "ECCV 2026"],
+    "abstract": "We propose Event-LiDAR, a 3D eventification framework that converts conventional LiDAR scans into temporally sparse representations for efficient point cloud processing. Unlike dense multi-scan processing, naive frame differencing, or correspondence-based residuals, 3D event extraction is formulated as a temporal estimation problem under sparse, viewpoint-dependent observations. Short-term geometric evolution across consecutive scans is approximated with a first-order geometric model, and deviations unexplained by this model are treated as events. This yields compact, information-preserving representations that suppress redundancy while retaining changes unpredictable by the first-order model. Event-LiDAR is applied to LiDAR-based 3D object detection with existing backbones, and an event-aware network design is further introduced to reallocate modeling capacity toward the input stage for sparse inputs. On nuScenes, under the 1F+9T setting with a 72% point reduction, Event-LiDAR maintains accuracy comparable to full-scan baselines while achieving 23% faster end-to-end inference on PTv3, driven in part by a 32% speedup in its feature extraction backbone. The gains generalize across backbones, with a 9% end-to-end speedup on CenterPoint under the same setting. Training is likewise accelerated by 17% under the same setting. Event-LiDAR thus serves as a low-latency, architecture-agnostic geometric preprocessor inspired by event-based sensing, providing a practical front-end for efficient 3D point cloud perception.",
+    "citation": "@inproceedings{murakami2026eventlidar, title={Event-LiDAR: 3D Eventification for Efficient Point Cloud Processing}, author={Murakami, Masatoshi and Tsuji, Eisho and Sakurada, Ken}, booktitle={European Conference on Computer Vision (ECCV)}, year={2026}}",
+    "isAccessibleForFree": true,
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://event-lidar-project.github.io/event-lidar/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop publication-hero-container">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">
+                <span class="publication-title-line">Event-LiDAR:</span>
+                <span class="publication-title-line publication-title-line--subtitle">3D Eventification for Efficient Point Cloud Processing</span>
+              </h1>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">Masatoshi Murakami<sup>1*</sup>,</span>
+                <span class="author-block">Eisho Tsuji<sup>1*</sup>,</span>
+                <span class="author-block">Ken Sakurada<sup>1,2</sup></span>
+              </div>
+
+              <div class="is-size-5 publication-authors publication-affiliations">
+                <span class="affiliation-line"><sup>1</sup>Graduate School of Informatics, Kyoto University</span>
+                <span class="affiliation-line"><sup>2</sup>D3 Center, The University of Osaka</span>
+                <span class="affiliation-line">ECCV 2026</span>
+                <span class="eql-cntrb"><small><sup>*</sup>Indicates Equal Contribution</small></span>
+              </div>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <button type="button" disabled
+                    class="external-link button is-normal is-rounded is-light"
+                    style="background-color: #e5e7eb; color: #6b7280; border-color: #d1d5db; opacity: 1; cursor: not-allowed;">
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Code</span>
+                    </button>
+                  </span>
+
+                  <span class="link-block">
+                    <a href="https://media.eventhosts.cc/Conferences/ECCV2026/pdfs/2038.pdf" target="_blank" rel="noopener noreferrer"
+                    class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light">
+      <div class="container">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-full">
+            <div class="scene-switcher" aria-label="nuScenes mini original and eventified point cloud scenes">
+              <video class="scene-compare-video is-active" src="static/videos/scene_compare_0.mp4" autoplay muted loop playsinline preload="auto" aria-label="Scene 0 original and eventified point clouds"></video>
+              <video class="scene-compare-video" src="static/videos/scene_compare_5.mp4" muted loop playsinline preload="none" aria-label="Scene 5 original and eventified point clouds"></video>
+              <video class="scene-compare-video" src="static/videos/scene_compare_7.mp4" muted loop playsinline preload="none" aria-label="Scene 7 original and eventified point clouds"></video>
+              <button class="scene-nav scene-nav--prev" type="button" aria-label="Previous scene"><i class="fas fa-chevron-left"></i></button>
+              <button class="scene-nav scene-nav--next" type="button" aria-label="Next scene"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="scene-dots" role="tablist" aria-label="Scene selector">
+              <button class="scene-dot is-active" type="button" aria-label="Show scene 0"></button>
+              <button class="scene-dot" type="button" aria-label="Show scene 5"></button>
+              <button class="scene-dot" type="button" aria-label="Show scene 7"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                We propose Event-LiDAR, a 3D eventification framework that converts conventional LiDAR scans into temporally sparse representations for efficient point cloud processing. Unlike dense multi-scan processing, naive frame differencing, or correspondence-based residuals, 3D event extraction is formulated as a temporal estimation problem under sparse, viewpoint-dependent observations. Short-term geometric evolution across consecutive scans is approximated with a first-order geometric model, and deviations unexplained by this model are treated as events. This yields compact, information-preserving representations that suppress redundancy while retaining changes unpredictable by the first-order model. Event-LiDAR is applied to LiDAR-based 3D object detection with existing backbones, and an event-aware network design is further introduced to reallocate modeling capacity toward the input stage for sparse inputs. On nuScenes, under the 1F+9T setting with a 72% point reduction, Event-LiDAR maintains accuracy comparable to full-scan baselines while achieving 23% faster end-to-end inference on PTv3, driven in part by a 32% speedup in its feature extraction backbone. The gains generalize across backbones, with a 9% end-to-end speedup on CenterPoint under the same setting. Training is likewise accelerated by 17% under the same setting. Event-LiDAR thus serves as a low-latency, architecture-agnostic geometric preprocessor inspired by event-based sensing, providing a practical front-end for efficient 3D point cloud perception.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section method-overview-video-section" aria-label="Event-LiDAR overview video">
+      <div class="container method-overview-video-container">
+        <div class="method-overview-video">
+          <iframe src="https://www.youtube.com/embed/gPgxb6S1bfI?rel=0" title="Event-LiDAR overview video" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light method-section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Method</h2>
+            <img class="paper-figure" src="static/images/method_flowchart.png" alt="Flowchart of temporal differentiation">
+            <div class="content has-text-justified">
+              <p>
+                Temporal differentiation extracts 3D events in four stages: (i) ego-motion compensation warps the current scan into the previous scan's coordinate frame; (ii) a grid-based neighbor search retrieves the local neighborhood of each point; (iii) a local first-order geometric model predicts the current local geometry by interpolation or extrapolation; and (iv) the signed deviation &Delta;d(p) from this prediction is thresholded, keeping points with <span class="method-math-token">|&Delta;d(p)|</span> &ge; &tau;<sub>0</sub> as events. Each event point carries &Delta;d(p) as an additional input feature.
+              </p>
+            </div>
+          </div>
+        </div>
+        <figure class="method-processing-time-figure">
+          <img class="paper-figure" src="static/images/results_processing_time_benchmark.png?v=20260903-processing-fps-01" alt="Processing-speed comparison of Event-LiDAR and MOS on Waymo and nuScenes." loading="lazy">
+          <figcaption class="subtitle has-text-centered">
+            Processing-speed comparison with MOS <a class="reference-citation" href="#reference-m-detector" aria-label="Reference 1">[1]</a>. MOS uses the original multithreaded implementation. Event-LiDAR runs on a single thread.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="hero is-small" id="interactive-demo">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <h2 class="title is-3 has-text-centered">Interactive Demo</h2>
+          <div class="viewer-shell" id="viewer-shell">
+            <button class="viewer-fullscreen-button" id="viewer-fullscreen" type="button" aria-label="Enter fullscreen"><i class="fas fa-expand"></i></button>
+            <div id="viewer-container" tabindex="0" aria-label="Interactive Event-LiDAR point cloud viewer"></div>
+            <div class="viewer-controls">
+              <div class="viewer-controls-row" id="viewer-controls-primary">
+                <label class="viewer-control-label" for="viewer-scene">Scene</label>
+                <select id="viewer-scene" aria-label="Select scene"></select>
+                <label class="viewer-control-label" for="viewer-event-model">Event model</label>
+                <select id="viewer-event-model" aria-label="Select event model">
+                  <option value="line" selected>Line</option>
+                  <option value="plane">Plane</option>
+                </select>
+                <label class="viewer-control-label" for="viewer-color-mode">Color by</label>
+                <select id="viewer-color-mode" aria-label="Select point color">
+                  <option value="height" selected>Height</option>
+                  <option value="temporal-difference">Temporal diff.</option>
+                </select>
+                <label class="viewer-bbox-toggle"><input type="checkbox" id="viewer-event-only-checkbox"> Event only</label>
+                <label class="viewer-bbox-toggle"><input type="checkbox" id="viewer-bbox-checkbox" checked> Show boxes (GT)</label>
+              </div>
+              <div class="viewer-controls-row viewer-controls-row--threshold" id="viewer-controls-threshold">
+                <label class="viewer-threshold-label" for="viewer-threshold">Threshold</label>
+                <input type="range" id="viewer-threshold" min="0" max="0.5" step="0.001" value="0.072">
+                <span class="viewer-threshold-number">
+                  <input type="number" id="viewer-threshold-number" min="0" max="0.5" step="0.001" value="0.072" inputmode="decimal" aria-label="Enter threshold in meters">
+                  <span aria-hidden="true">m</span>
+                </span>
+              </div>
+            </div>
+            <div class="viewer-playback">
+              <button class="viewer-play-button" id="viewer-play" type="button" aria-label="Play"><i class="fas fa-play"></i></button>
+              <button class="viewer-step-button" id="viewer-prev-frame" type="button" aria-label="Previous frame" disabled><i class="fas fa-angle-left"></i></button>
+              <button class="viewer-step-button" id="viewer-next-frame" type="button" aria-label="Next frame" disabled><i class="fas fa-angle-right"></i></button>
+              <input type="range" id="viewer-frame" min="0" max="0" step="1" value="0" disabled>
+              <span class="viewer-frame-label" id="viewer-frame-label">Frame 000 / 000</span>
+            </div>
+            <p class="viewer-load-progress" id="viewer-load-progress"></p>
+            <div class="viewer-colorbar">
+              <span class="viewer-colorbar-label" id="viewer-colorbar-min"></span>
+              <div class="viewer-colorbar-gradient" id="viewer-colorbar-gradient"></div>
+              <span class="viewer-colorbar-label" id="viewer-colorbar-max"></span>
+            </div>
+            <p class="viewer-colorbar-title" id="viewer-colorbar-title">Height [m]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero is-small is-light">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <h2 class="title is-3 has-text-centered">Results</h2>
+          <figure class="results-figure-group">
+            <div class="results-figures">
+              <div class="results-figure results-figure--speedup">
+              <img class="paper-figure" src="static/images/results_speedup_vs_map.png" alt="Speed-accuracy trade-off on nuScenes" loading="lazy">
+              </div>
+              <div class="results-figure results-figure--breakdown">
+                <img class="paper-figure" src="static/images/results_time_breakdown.png" alt="Module-wise inference time breakdown" loading="lazy">
+              </div>
+            </div>
+            <figcaption class="results-figures-caption subtitle has-text-centered">
+              <span class="results-caption-part">Left: Comparison of speedup and detection accuracy (mAP) on nuScenes with PTv3. Star markers denote Event-LiDAR. Here, 10 denotes concatenation of the previous ten frames. 10V uses the RPP module of FSD++ <a class="reference-citation" href="#reference-fsdpp" aria-label="Reference 2">[2]</a>. 10I and 10I' use range-image depth differencing. 10H uses height filtering. 10R uses uniform random sampling. 10M uses Mapless-MOS <a class="reference-citation" href="#reference-mapless-mos" aria-label="Reference 3">[3]</a>.</span>
+              <span class="results-caption-part">Right: Module-wise inference-time breakdown comparing temporal sampling strategies.</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section references-section" id="references">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 has-text-centered">References</h2>
+            <ul class="references-list">
+              <li id="reference-m-detector">
+                <span class="reference-index">[1]</span> Wu, H., Li, Y., Xu, W., Kong, F., Zhang, F.: <cite>Moving event detection from LiDAR point streams.</cite> Nature Communications 15(1), 345 (2024)
+              </li>
+              <li id="reference-fsdpp">
+                <span class="reference-index">[2]</span> Fan, L., Yang, Y., Wang, F., Wang, N., Zhang, Z.: <cite>Super Sparse 3D Object Detection.</cite> IEEE TPAMI 45(10), 12490–12505 (2023)
+              </li>
+              <li id="reference-mapless-mos">
+                <span class="reference-index">[3]</span> Yoon, D., Tang, T., Barfoot, T.: <cite>Mapless Online Detection of Dynamic Objects in 3D Lidar.</cite> In: 2019 16th Conference on Computer and Robot Vision (CRV). pp. 113–120 (2019)
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="bibtex-header">
+          <h2 class="title">BibTeX</h2>
+          <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+            <i class="fas fa-copy"></i>
+            <span class="copy-text">Copy</span>
+          </button>
+        </div>
+        <pre id="bibtex-code"><code>@inproceedings{murakami2026eventlidar,
+  title     = {Event-LiDAR: 3D Eventification for Efficient Point Cloud Processing},
+  author    = {Murakami, Masatoshi and Tsuji, Eisho and Sakurada, Ken},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

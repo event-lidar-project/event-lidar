@@ -1,0 +1,19 @@
+{
+  "scenes": [
+    {
+      "index": 0,
+      "label": "Scene 0",
+      "dir": "static/data/scene0"
+    },
+    {
+      "index": 1,
+      "label": "Scene 1",
+      "dir": "static/data/scene3"
+    },
+    {
+      "index": 2,
+      "label": "Scene 2",
+      "dir": "static/data/scene5"
+    }
+  ]
+}

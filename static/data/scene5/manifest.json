@@ -1,0 +1,164 @@
+{
+  "frameCount": 191,
+  "chunkCount": 13,
+  "framesPerChunk": 16,
+  "firstChunkFrames": 1,
+  "fps": 10,
+  "pointBytes": 10,
+  "maxPointCount": 27718,
+  "valueRange": [
+    -0.2,
+    0.2
+  ],
+  "eventModels": {
+    "line": {
+      "label": "line",
+      "valueRange": [
+        -0.2,
+        0.2
+      ]
+    },
+    "plane": {
+      "label": "plane",
+      "valueRange": [
+        -0.2,
+        0.2
+      ]
+    }
+  },
+  "quantization": {
+    "xyz": {
+      "stepMeters": 0.01,
+      "valueCount": 15527052,
+      "clampedCount": 0,
+      "maxAbsErrorMeters": 0.005006713867189205,
+      "rmsErrorMeters": 0.002885101882626835,
+      "unclampedValueCount": 15527052,
+      "unclampedMaxAbsErrorMeters": 0.005006713867189205,
+      "unclampedRmsErrorMeters": 0.002885101882626835
+    },
+    "lineDelta": {
+      "stepMeters": 0.005,
+      "valueCount": 5175684,
+      "clampedCount": 0,
+      "maxAbsErrorMeters": 0.002503662109376137,
+      "rmsErrorMeters": 0.0014445266172581068,
+      "unclampedValueCount": 5175684,
+      "unclampedMaxAbsErrorMeters": 0.002503662109376137,
+      "unclampedRmsErrorMeters": 0.0014445266172581068
+    },
+    "planeDelta": {
+      "stepMeters": 0.005,
+      "valueCount": 5175684,
+      "clampedCount": 0,
+      "maxAbsErrorMeters": 0.0025002098083497515,
+      "rmsErrorMeters": 0.00144297019084225,
+      "unclampedValueCount": 5175684,
+      "unclampedMaxAbsErrorMeters": 0.0025002098083497515,
+      "unclampedRmsErrorMeters": 0.00144297019084225
+    },
+    "boxCorners": {
+      "stepMeters": 0.01,
+      "valueCount": 82968,
+      "clampedCount": 0,
+      "maxAbsErrorMeters": 0.005003356933599434,
+      "rmsErrorMeters": 0.0028889937435391134,
+      "unclampedValueCount": 82968,
+      "unclampedMaxAbsErrorMeters": 0.005003356933599434,
+      "unclampedRmsErrorMeters": 0.0028889937435391134
+    }
+  },
+  "chunks": [
+    {
+      "file": "chunk_00.bin",
+      "frameCount": 1,
+      "bytes": 272270,
+      "uncompressedBytes": 272270,
+      "payloadSha256": "19a84ac0f4935abc4859415963d686b1545aeae24f75fb1c5666d15564399723"
+    },
+    {
+      "file": "chunk_01.bin",
+      "frameCount": 16,
+      "bytes": 4394339,
+      "uncompressedBytes": 4394339,
+      "payloadSha256": "234268754ea83b36507bed57678a98ff4c87da1ce57c7cc8218559dfa8196bcb"
+    },
+    {
+      "file": "chunk_02.bin",
+      "frameCount": 16,
+      "bytes": 4410007,
+      "uncompressedBytes": 4410007,
+      "payloadSha256": "59d11de1e9db64c1650c5ceb37099be3ca1f49ec5004f9c52a6b38d1e197fc44"
+    },
+    {
+      "file": "chunk_03.bin",
+      "frameCount": 16,
+      "bytes": 4436812,
+      "uncompressedBytes": 4436812,
+      "payloadSha256": "48ee3acdb67930f17c42b9c1b51f950e36ef5d1b2c0e27214508dba2ff22b14d"
+    },
+    {
+      "file": "chunk_04.bin",
+      "frameCount": 16,
+      "bytes": 4424098,
+      "uncompressedBytes": 4424098,
+      "payloadSha256": "b7520e8f2b6446e7e3f227f621798c9b72375d6d2239c3490c31135295bb5ffd"
+    },
+    {
+      "file": "chunk_05.bin",
+      "frameCount": 16,
+      "bytes": 4371099,
+      "uncompressedBytes": 4371099,
+      "payloadSha256": "1b6939ce3c20d0db7d0898ae4858994fc07b443ed9677d14df81421dc0a9c0ca"
+    },
+    {
+      "file": "chunk_06.bin",
+      "frameCount": 16,
+      "bytes": 4358662,
+      "uncompressedBytes": 4358662,
+      "payloadSha256": "d2890f80922ae915a2a25fd38525b404fd55f4124ca3b321e4b6d6b6831448e1"
+    },
+    {
+      "file": "chunk_07.bin",
+      "frameCount": 16,
+      "bytes": 4342569,
+      "uncompressedBytes": 4342569,
+      "payloadSha256": "2df3953938d036868594584ad1948f1f877a3faaf835bad5eeef0e79cf1b3828"
+    },
+    {
+      "file": "chunk_08.bin",
+      "frameCount": 16,
+      "bytes": 4387300,
+      "uncompressedBytes": 4387300,
+      "payloadSha256": "03fa3c07b420d8f180f691824aa0dedcc6cc4cfba2ee97be96213a5b878beb7e"
+    },
+    {
+      "file": "chunk_09.bin",
+      "frameCount": 16,
+      "bytes": 4323314,
+      "uncompressedBytes": 4323314,
+      "payloadSha256": "56446ac257a6ff9f5b08496bfa0e7b2052f2cd4b8e5ce26d88650310c723867f"
+    },
+    {
+      "file": "chunk_10.bin",
+      "frameCount": 16,
+      "bytes": 4246380,
+      "uncompressedBytes": 4246380,
+      "payloadSha256": "af5f82186c243f0c28311dc381cc59b9dc4c65d7a9d56aa5d303ac1650be85d9"
+    },
+    {
+      "file": "chunk_11.bin",
+      "frameCount": 16,
+      "bytes": 4221108,
+      "uncompressedBytes": 4221108,
+      "payloadSha256": "11f15c9746e5497d8845bd3891b4e91f10e88c1b20f6465c72e14a7803500961"
+    },
+    {
+      "file": "chunk_12.bin",
+      "frameCount": 14,
+      "bytes": 3739855,
+      "uncompressedBytes": 3739855,
+      "payloadSha256": "2e20dfb63ee0bd8cd233b52b5297254de57cfad2e973f5c39e23e73271b9e27c"
+    }
+  ]
+}
